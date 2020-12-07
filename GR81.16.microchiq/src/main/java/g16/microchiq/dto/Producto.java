@@ -14,8 +14,6 @@ import javax.persistence.NamedQuery;
 
 import org.apache.commons.io.IOUtils;
 
-import g16.microchiq.dto.Usuario;
-
 @Entity
 @NamedQuery(name="Producto.findAll", query="SELECT p FROM Producto p")
 public class Producto implements Serializable {
