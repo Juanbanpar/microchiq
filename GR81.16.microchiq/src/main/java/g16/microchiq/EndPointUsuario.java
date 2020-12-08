@@ -31,9 +31,19 @@ public class EndPointUsuario {
 	
 	@RequestMapping(value = "/usuarios/{email}",  method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Usuario> findByEmail(@PathVariable String email){
-		Usuario user = usuarioDAO.getByEmail(email);
+		Usuario user = usuarioDAO.findByEmail(email);
 		
 		ResponseEntity<Usuario> r = ResponseEntity.status(HttpStatus.OK).body(user);
 		return r;
+	}
+	
+	@RequestMapping(value = "/usuarios/delete/{email}",  method = RequestMethod.DELETE)
+	public ResponseEntity<Void> deleteByEmail(@PathVariable String email){
+		Usuario usuarioBorrar = usuarioDAO.findByEmail(email);
+		
+		usuarioDAO.delete(usuarioBorrar);
+		
+		
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 }

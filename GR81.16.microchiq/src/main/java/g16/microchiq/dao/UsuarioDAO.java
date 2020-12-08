@@ -14,5 +14,7 @@ public interface UsuarioDAO extends CrudRepository<Usuario, Integer> {
 	@Query("Select u from Usuario u")
 	public @ResponseBody List<Usuario> getAllUsers();
 	
-	public Usuario getByEmail(String email);
+	public Usuario findByEmail(String email);
+	
+	public Usuario deleteByEmail(String email);
 }
