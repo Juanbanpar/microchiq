@@ -61,4 +61,42 @@ public class EndPoint {
 	public List<Producto> getAllProductsByString(@PathVariable String search){
 		return productoDAO.getAllProductsByString(search);
 	}
+	
+	@RequestMapping(value = "/productos/buscaravanzado/{categoria}/{search}",  method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<Producto> getAllProductsByStringAndCategoria(@PathVariable("categoria") String categoria, @PathVariable("search") String search){
+		return productoDAO.getAllProductsByStringAndCategoria(categoria, search);
+	}
+	
+	@RequestMapping(value = "/productos/delete/{id}",  method = RequestMethod.DELETE)
+	public ResponseEntity<Void> deleteById(@PathVariable int id){
+		Producto productoBorrar = productoDAO.findById(id);
+		
+		productoDAO.delete(productoBorrar);
+		
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/productos/new",  method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> crearProductos(@RequestBody Producto product){
+		productoDAO.save(product);
+		
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/productos/edit",  method = RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> editarProductos(@RequestBody Producto product){
+		productoDAO.save(product);
+		
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/productos/buy",  method = RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> buyProductos(@RequestBody Producto product, @RequestBody Usuario comprador){
+		product.setEstado("Vendido");
+		product.setComprador(comprador);
+		
+		productoDAO.save(product);
+		
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
 }

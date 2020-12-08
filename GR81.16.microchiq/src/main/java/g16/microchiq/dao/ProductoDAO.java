@@ -27,4 +27,7 @@ public interface ProductoDAO extends CrudRepository<Producto, Integer> {
 		
 	@Query("FROM Producto p WHERE ((p.titulo like %?1%) OR (p.descripcion like %?1%) AND (p.estado = 'Disponible'))")
 	public List<Producto> getAllProductsByString(String search);
+	
+	@Query("FROM Producto p WHERE ((p.titulo like %?2% OR p.descripcion like %?2%) AND p.categoria = ?1 AND (p.estado = 'Disponible'))")
+	public List<Producto> getAllProductsByStringAndCategoria(String categoria, String search);
 }

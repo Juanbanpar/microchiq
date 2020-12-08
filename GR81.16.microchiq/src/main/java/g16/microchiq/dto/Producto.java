@@ -56,8 +56,6 @@ public class Producto implements Serializable {
 	@JoinColumn(name="vendedor")
 	private Usuario vendedor;
 
-		
-	
 	public int getIdproduct() {
 		return idproduct;
 	}
@@ -133,4 +131,17 @@ public class Producto implements Serializable {
 
         return encodedfile;
     }
+	
+	public Usuario getComprador() {
+		return comprador;
+	}
+	public void setComprador(Usuario comprador) {
+		this.comprador = comprador;
+	}
+	public Usuario getVendedor() {
+		return vendedor;
+	}
+	public void setVendedor(Usuario vendedor) {
+		this.vendedor = vendedor;
+	}
 }
