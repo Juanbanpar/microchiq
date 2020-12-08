@@ -49,7 +49,7 @@ public class EndPoint {
 	}
 	*/
 	
-	@RequestMapping(value = "/productos/buscar/{search}",  method = RequestMethod.GET)
+	@RequestMapping(value = "/productos/buscar/{search}",  method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<Producto> getAllProductsByString(@PathVariable String search){
 		return productoDAO.getAllProductsByString(search);
 	}

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import g16.microchiq.dto.Usuario;
 import g16.microchiq.dto.Producto;
 
 public interface ProductoDAO extends CrudRepository<Producto, Integer> {
