@@ -30,10 +30,10 @@ public class EndPointUsuario {
 	}
 	
 	@RequestMapping(value = "/usuarios/{email}",  method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public Usuario findByEmail(@PathVariable String email){
+	public ResponseEntity<Usuario> findByEmail(@PathVariable String email){
 		Usuario user = usuarioDAO.getByEmail(email);
 		
 		ResponseEntity<Usuario> r = ResponseEntity.status(HttpStatus.OK).body(user);
-		return user;
+		return r;
 	}
 }
