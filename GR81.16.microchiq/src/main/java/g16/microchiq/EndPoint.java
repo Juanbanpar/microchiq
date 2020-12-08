@@ -28,4 +28,28 @@ public class EndPoint {
 		return r;
 	}
 	
+	/*
+	@RequestMapping(value="/productos/comprador/{email}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Producto>> getByComprador(@PathVariable String email){
+		List<Producto> list = productoDAO.getByComprador(comprador); //Crear comprador
+		ResponseEntity<List<Producto>> r = ResponseEntity.status(HttpStatus.OK).body(list);
+		
+		return r;
+	}
+	*/
+	
+	/*
+	@RequestMapping(value="/productos/vendedor/{email}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Producto>> getByVendedor(@PathVariable String email){
+		List<Producto> list = productoDAO.getByVendedor(vendedor);	//Crear vendedor
+		ResponseEntity<List<Producto>> r = ResponseEntity.status(HttpStatus.OK).body(list);
+		
+		return r;
+	}
+	*/
+	
+	@RequestMapping(value = "/productos/buscar/{search}",  method = RequestMethod.GET)
+	public List<Producto> getAllProductsByString(@PathVariable String search){
+		return productoRepository.getAllProductsByString(search);
+	}
 }
