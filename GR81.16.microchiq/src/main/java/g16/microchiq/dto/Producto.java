@@ -14,6 +14,7 @@ import javax.persistence.NamedQuery;
 
 import org.apache.commons.io.IOUtils;
 
+
 @Entity
 @NamedQuery(name="Producto.findAll", query="SELECT p FROM Producto p")
 public class Producto implements Serializable {
@@ -57,61 +58,65 @@ public class Producto implements Serializable {
 	private Usuario vendedor;
 
 	public int getIdproduct() {
-		return idproduct;
+		return this.idproduct;
 	}
-	
+
 	public void setIdproduct(int idproduct) {
 		this.idproduct = idproduct;
 	}
-	
+
 	public String getCategoria() {
-		return categoria;
+		return this.categoria;
 	}
-	
+
 	public void setCategoria(String categoria) {
 		this.categoria = categoria;
 	}
-	
+
 	public String getDescripcion() {
-		return descripcion;
+		return this.descripcion;
 	}
-	
+
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	
+
 	public String getEstado() {
-		return estado;
+		return this.estado;
 	}
-	
+
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	
+
 	public String getImagen() {
 		return this.imagen;
 	}
 
-	public void setImagen(InputStream imagen) {
+	public void setImagenIS(InputStream imagen) {
 		this.imagen = encodeFileToBase64Binary(imagen);
+	}
+	
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
 	
 	public void setBase64(String imagen) {
 		this.imagen = imagen;
 	}
-	
+
 	public int getPrecio() {
-		return precio;
+		return this.precio;
 	}
-	
+
 	public void setPrecio(int precio) {
 		this.precio = precio;
 	}
-	
+
 	public String getTitulo() {
-		return titulo;
+		return this.titulo;
 	}
-	
+
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
