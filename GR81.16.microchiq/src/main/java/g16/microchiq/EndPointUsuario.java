@@ -54,6 +54,21 @@ public class EndPointUsuario {
 	
 	@RequestMapping(value = "/usuarios/new",  method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> crearUsuarios(@RequestBody Usuario usuario){
+		MessageDigest md;
+		String hash = "";
+		try {
+			md = MessageDigest.getInstance("MD5");
+			md.update(usuario.getPasswd().getBytes());
+		    byte[] digest = md.digest();
+		    hash = DatatypeConverter.printHexBinary(digest);
+		    hash = hash.toLowerCase();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		usuario.setPasswd(hash);
+		
 		usuarioDAO.save(usuario);
 		
 		return new ResponseEntity<Void>(HttpStatus.OK);
