@@ -15,7 +15,11 @@ import g16.microchiq.dao.ProductoDAO;
 import g16.microchiq.dao.UsuarioDAO;
 import g16.microchiq.dto.*;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
+
+import javax.xml.bind.DatatypeConverter;
 
 @RestController
 public class EndPoint {
@@ -83,11 +87,26 @@ public class EndPoint {
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/productos/edit",  method = RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> editarProductos(@RequestBody Producto product){
-		productoDAO.save(product);
+	@RequestMapping(value = "/productos/edit/{id}",  method = RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Producto> editarProductos(@PathVariable int id, @RequestBody Producto productR){
+		Producto productoEdit = productoDAO.findById(id);
 		
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		ResponseEntity<Producto> response;
+		
+		if(productoEdit != null) {
+			productoEdit.setTitulo(productR.getTitulo());
+			productoEdit.setDescripcion(productR.getDescripcion());
+			productoEdit.setPrecio(productR.getPrecio());
+			productoEdit.setEstado(productR.getEstado());
+			productoEdit.setImagen(productR.getImagen());
+			
+			productoDAO.save(productoEdit);
+			
+			response = new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return response;
 	}
 	
 	@RequestMapping(value = "/productos/buy",  method = RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
