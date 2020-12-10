@@ -15,7 +15,11 @@ import g16.microchiq.dao.ProductoDAO;
 import g16.microchiq.dao.UsuarioDAO;
 import g16.microchiq.dto.*;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
+
+import javax.xml.bind.DatatypeConverter;
 
 @RestController
 public class EndPointUsuario {
@@ -55,10 +59,39 @@ public class EndPointUsuario {
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/usuarios/edit",  method = RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> editarUsuarios(@RequestBody Usuario usuario){
-		usuarioDAO.save(usuario);
+	@RequestMapping(value = "/usuarios/edit/{email}",  method = RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Usuario> editarUsuarios(@PathVariable String email, @RequestBody Usuario usuarioR){
+		Usuario usuarioEdit = usuarioDAO.findByEmail(email);
 		
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		ResponseEntity<Usuario> response;
+		
+		if(usuarioEdit != null) {
+			MessageDigest md;
+			String hash = "";
+			try {
+				md = MessageDigest.getInstance("MD5");
+				md.update(usuarioR.getPasswd().getBytes());
+			    byte[] digest = md.digest();
+			    hash = DatatypeConverter.printHexBinary(digest);
+			    hash = hash.toLowerCase();
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			usuarioEdit.setPasswd(hash);
+			usuarioEdit.setEmail(usuarioR.getEmail());
+			usuarioEdit.setNombre(usuarioR.getNombre());
+			usuarioEdit.setApellido1(usuarioR.getApellido1());
+			usuarioEdit.setApellido2(usuarioR.getApellido2());
+			usuarioEdit.setCiudad(usuarioR.getCiudad());
+			
+			usuarioDAO.save(usuarioEdit);
+			
+			response = new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return response;
 	}
 }
