@@ -100,4 +100,11 @@ public class EndPointMensaje {
 			chatDAO.delete(mensajeBorrar);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
+	
+	@RequestMapping(value = "/mensajes/new",  method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> crearMensajes(@RequestBody Mensaje mensaje){
+		chatDAO.save(mensaje);
+		
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
 }
