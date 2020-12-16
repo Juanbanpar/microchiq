@@ -99,6 +99,8 @@ public class EndPoint {
 			productoEdit.setPrecio(productR.getPrecio());
 			productoEdit.setEstado(productR.getEstado());
 			productoEdit.setImagen(productR.getImagen());
+			productoEdit.setComprador(productR.getComprador());
+			productoEdit.setEstado(productR.getEstado());
 			
 			productoDAO.save(productoEdit);
 			
