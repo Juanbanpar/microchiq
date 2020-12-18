@@ -104,25 +104,6 @@ public class EndPointMensaje {
 	@RequestMapping(value = "/mensajes/new",  method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> crearMensajes(@RequestBody Mensaje mensaje){
 		
-		if(mensaje.getContenido().contains("Tarjeta")) {
-			
-			String[] arrSplit = mensaje.getContenido().split(" ");   
-	            
-			String tarjetaString = arrSplit[1];
-			long tarjetaLong=0;
-			
-			boolean resultado;
-			try {
-	            tarjetaLong = Long.parseLong(tarjetaString);
-	            resultado = true;
-	            System.out.println("HOLA");
-	        } catch (NumberFormatException excepcion) {
-	            resultado = false;
-	        }
-			if(resultado==false || tarjetaLong %3 !=0 || tarjetaString.length()!=16) {
-				return new ResponseEntity<Void>(HttpStatus.PAYMENT_REQUIRED);
-			}
-		}
 		chatDAO.save(mensaje);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}

@@ -2,6 +2,8 @@ package g16.microchiq;
 
 import java.util.List;
 
+import javax.xml.ws.http.HTTPException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -100,5 +102,30 @@ public class EndPointConfirmacion {
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 		
+		@RequestMapping(value = "/comprobarTarjeta", method = RequestMethod.POST, consumes=MediaType.TEXT_PLAIN_VALUE)
+		public ResponseEntity<Void> checkCredit (@RequestBody String datos ){
+			  
+				//String tarjeta = compra.getTarjeta();
+				System.out.println("hey");
+				String[] datos2 = datos.split("-");
+				System.out.println("split hecho");
+				int cvvInt = 0;
+				long tarjetaLong=0;
+				boolean resultado;
+				try {
+					cvvInt = Integer.parseInt(datos2[1]);
+		            tarjetaLong = Long.parseLong(datos2[0]);
+		            resultado = true;
+		        } catch (NumberFormatException excepcion) {
+		        	System.out.println("nope");
+		            resultado = false;
+		        }
+				if(resultado==false || tarjetaLong %3 !=0 || datos2[0].length()!=16 || datos2[1].length()!=3) {
+					System.out.println("noooope");
+					return new ResponseEntity<Void>(HttpStatus.PAYMENT_REQUIRED);
+				}
+				//else return new ResponseEntity<Void>(HttpStatus.OK);
+				return new ResponseEntity<Void>(HttpStatus.OK);
+		} 
 		
 }
